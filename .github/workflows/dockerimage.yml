@@ -6,15 +6,12 @@ on:
     branches:    
       - master         # Push events on master branch
 
-env:
-  IMAGE_NAME: airspace/airspacecommon
-
 jobs:
 
-  build:
-
+  build-job:
+    env:
+      IMAGE_NAME: airspace/airspacecommon
     runs-on: ubuntu-latest
-
     steps:
     - name: Display the IMAGE_NAME
       run: echo ${env:IMAGE_NAME}
