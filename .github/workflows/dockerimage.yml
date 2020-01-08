@@ -1,6 +1,14 @@
-name: Docker Image CI
+name: Docker Image CI - Hello World
 
-on: [push]
+on:   
+  push:
+    # Publish `master` as Docker `latest` image.
+    branches:
+      - master
+
+    # Publish `v1.2.3` tags as releases.
+    tags:
+      - v*
 
 jobs:
 
@@ -11,4 +19,4 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Build the Docker image
-      run: docker build . --file Dockerfile.build --tag my-image-name:$(date +%s)
+      run: docker build . --file Dockerfile.build --tag my-image-name:$(GITHUB_SHA)
