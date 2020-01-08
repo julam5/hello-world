@@ -10,7 +10,7 @@ jobs:
 
   build-job:
     env:
-      IMAGE_NAME: airspace/airspacecommon
+      IMAGE_NAME: airspacesystems/airspacecommon
     runs-on: ubuntu-latest
     steps:
     - name: Display the IMAGE_NAME
@@ -22,7 +22,7 @@ jobs:
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
-        name: airspace/airspacecommon
+        name: airspacesystems/hello-world-github-actions
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         dockerfile: Dockerfile.build
