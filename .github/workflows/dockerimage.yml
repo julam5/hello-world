@@ -6,6 +6,9 @@ on:
     branches:
       - master
 
+env:
+  IMAGE_NAME: airspace/airspacecommon
+
 jobs:
 
   build:
@@ -13,8 +16,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Display the path
-      run: echo $PATH
+    - name: Display the IMAGE_NAME
+      run: echo ${env:IMAGE_NAME}
       shell: bash
     - uses: actions/checkout@v1
     - name: Build the Docker image
