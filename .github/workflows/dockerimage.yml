@@ -2,9 +2,9 @@ name: Docker Image CI - Hello World
 
 on:   
   push:
-    # Publish `master` as Docker `latest` image.
-    branches:
-      - master
+    # trigger workflow when these branches are being pushed to
+    branches:    
+      - master         # Push events on master branch
 
 env:
   IMAGE_NAME: airspace/airspacecommon
