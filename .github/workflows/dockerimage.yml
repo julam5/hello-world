@@ -5,20 +5,59 @@ on:
     # trigger workflow when these branches are being pushed to
     branches:    
       - master         # Push events on master branch
+    tags:
+      - v*
 
 jobs:
 
   build-job:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile.build --tag $DOCKER_REPO:${GITHUB_SHA::8}
+    - uses: actions/checkout@v2
+      with:
+        ref: github.ref
+        
+
+    - name: Build the Docker image (no tag)
+      if: github.ref == 'refs/heads/master' 
       env:
         DOCKER_REPO: julam5/hello-world-github-actions
+      run: docker build . --file Dockerfile.build --tag $DOCKER_REPO:${GITHUB_SHA::8} 
+    - name: Build the Docker image (with tag)
+      if: startsWith(github.ref, 'refs/tags/')
+      env:
+        DOCKER_REPO: julam5/hello-world-github-actions
+      run: docker build . --file Dockerfile.build --tag $DOCKER_REPO:${GITHUB_REF} 
+  
+  
+  
     - name: Login to DockerHub Registry
       run: echo "${{ secrets.PERSONAL_DOCKER_PASSWORD }}" | docker login -u ${{ secrets.PERSONAL_DOCKER_USERNAME }} --password-stdin
-    - name: Push image
-      run: docker push ${DOCKER_REPO}:${GITHUB_SHA::8}
+      
+      
+      
+
+    - name: Push image (no tag)
+      if: github.ref == 'refs/heads/master' 
       env:
         DOCKER_REPO: julam5/hello-world-github-actions
+      run: docker push ${DOCKER_REPO}:${GITHUB_SHA::8}
+    - name: Push image (with tag)
+      if: startsWith(github.ref, 'refs/tags/')
+      env:
+        DOCKER_REPO: julam5/hello-world-github-actions
+      run: docker push ${DOCKER_REPO}:${GITHUB_REF}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
