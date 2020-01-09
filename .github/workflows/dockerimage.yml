@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Display the IMAGE_NAME
-      run: echo ${env:IMAGE_NAME}
+      run: echo ${env:DOCKER_REPO}
       shell: bash
     - uses: actions/checkout@v1
     - name: Build the Docker image
@@ -22,7 +22,7 @@ jobs:
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
-        name: $DOCKER_REPO:${GITHUB_SHA::8}
+        name: ${DOCKER_REPO}:${GITHUB_SHA::8}
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         dockerfile: Dockerfile.build
