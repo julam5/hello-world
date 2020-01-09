@@ -9,8 +9,6 @@ on:
 jobs:
 
   build-job:
-    env:
-      DOCKER_REPO: airspacesystems/hello-world-github-actions
     runs-on: ubuntu-latest
     steps:
     - name: Display the IMAGE_NAME
@@ -18,8 +16,10 @@ jobs:
       shell: bash
     - uses: actions/checkout@v1
     - name: Build the Docker image
-      run: docker build . --file Dockerfile.build --tag ${env:DOCKER_REPO}:${GITHUB_SHA::8}
+      run: docker build . --file Dockerfile.build --tag $DOCKER_REPO:${GITHUB_SHA::8}
+      env:
+        DOCKER_REPO: airspacesystems/hello-world-github-actions
     - name: Login to DockerHub Registry
       run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
     - name: Push image
-      run: docker push ${env:DOCKER_REPO}:${GITHUB_SHA::8}
+      run: docker push ${DOCKER_REPO}:${GITHUB_SHA::8}
