@@ -22,7 +22,8 @@ jobs:
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
-        name: ${DOCKER_REPO}:${GITHUB_SHA::8}
+        name: airspacesystems/hello-world-github-actions
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         dockerfile: Dockerfile.build
+        snapshot: true
