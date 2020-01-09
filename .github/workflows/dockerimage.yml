@@ -15,10 +15,10 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile.build --tag $DOCKER_REPO:${GITHUB_SHA::8}
       env:
-        DOCKER_REPO: airspacesystems/hello-world-github-actions
+        DOCKER_REPO: julam5/hello-world-github-actions
     - name: Login to DockerHub Registry
-      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+      run: echo "${{ secrets.PERSONAL_DOCKER_PASSWORD }}" | docker login -u ${{ secrets.PERSONAL_DOCKER_USERNAME }} --password-stdin
     - name: Push image
       run: docker push ${DOCKER_REPO}:${GITHUB_SHA::8}
       env:
-        DOCKER_REPO: airspacesystems/hello-world-github-actions
+        DOCKER_REPO: julam5/hello-world-github-actions
