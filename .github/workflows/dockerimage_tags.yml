@@ -16,16 +16,11 @@ jobs:
       with:
         ref: ${{ github.ref }}
         
-    - name: Echo check (with tag)
+      
+    - name: Build the Docker image (with tag)
       env:
         DOCKER_REPO: julam5/hello-world-github-actions
-        GITHUB_REF_PREFIX: refs/tags/
-      run: echo ${GITHUB_REF#${GITHUB_REF_PREFIX}}
-      
-    #- name: Build the Docker image (with tag)
-    #  env:
-    #    DOCKER_REPO: julam5/hello-world-github-actions
-    #  run: docker build . --file Dockerfile.build --tag $DOCKER_REPO:${GITHUB_REF} 
+      run: docker build . --file Dockerfile.build --tag $DOCKER_REPO:${GITHUB_REF#${GITHUB_REF_PREFIX}}
   
   
   
