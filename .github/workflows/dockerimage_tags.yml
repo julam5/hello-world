@@ -1,26 +1,41 @@
-name: Docker Image CI - Hello World
+name: Docker Image CI - Hello World - Tag Yml
 
 on:   
   push:
     # trigger workflow when these branches are being pushed to
-    tags:    
-      - v*         # Push events on master branch
+    tags:
+      - v*
 
 jobs:
 
   build-job:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
       with:
-        ref: ${GITHUB_REF}
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile.build --tag $DOCKER_REPO:${GITHUB_REF}
+        ref: ${{ github.ref }}
+        
+    - name: Echo check (with tag)
       env:
         DOCKER_REPO: julam5/hello-world-github-actions
-    - name: Login to DockerHub Registry
-      run: echo "${{ secrets.PERSONAL_DOCKER_PASSWORD }}" | docker login -u ${{ secrets.PERSONAL_DOCKER_USERNAME }} --password-stdin
-    - name: Push image
-      run: docker push ${DOCKER_REPO}:${GITHUB_REF}
-      env:
-        DOCKER_REPO: julam5/hello-world-github-actions
+        GITHUB_REF_PREFIX: ref/tags/
+      run: echo ${{ GITHUB_REF#"${{ GITHUB_REF_PREFIX }}" }}
+      
+    #- name: Build the Docker image (with tag)
+    #  env:
+    #    DOCKER_REPO: julam5/hello-world-github-actions
+    #  run: docker build . --file Dockerfile.build --tag $DOCKER_REPO:${GITHUB_REF} 
+  
+  
+  
+    #- name: Login to DockerHub Registry
+    #  run: echo "${{ secrets.PERSONAL_DOCKER_PASSWORD }}" | docker login -u ${{ secrets.PERSONAL_DOCKER_USERNAME }} --password-stdin
+      
+      
+    #- name: Push image (with tag)
+    #  env:
+    #    DOCKER_REPO: julam5/hello-world-github-actions
+    #  run: docker push ${DOCKER_REPO}:${GITHUB_REF}
+      
+      
+      
