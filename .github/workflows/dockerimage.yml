@@ -14,8 +14,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - run: |
-        git fetch --prune --unshallow
+      if: github.ref == 'refs/heads/master' 
+      ref: master
+    - uses: actions/checkout@v2
+      if: startsWith(github.ref, 'refs/tags/')
+      ref: github.ref
+    
         
 
     - name: Build the Docker image (no tag)
@@ -27,7 +31,8 @@ jobs:
       if: startsWith(github.ref, 'refs/tags/')
       env:
         DOCKER_REPO: julam5/hello-world-github-actions
-      run: docker build . --file Dockerfile.build --tag $DOCKER_REPO:${GITHUB_REF} 
+        REF_PREFIX: ref/tags/
+      run: echo ${${GITHUB_REF}#"${REF_PREFIX}"} | read result  | docker build . --file Dockerfile.build --tag $DOCKER_REPO:${result} 
   
   
   
@@ -46,7 +51,7 @@ jobs:
       if: startsWith(github.ref, 'refs/tags/')
       env:
         DOCKER_REPO: julam5/hello-world-github-actions
-      run: docker push ${DOCKER_REPO}:${GITHUB_REF}
+      run: echo ${${GITHUB_REF}#"${REF_PREFIX}"} | read result  | docker push ${DOCKER_REPO}:${result} 
 
 
 
