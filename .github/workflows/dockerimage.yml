@@ -18,19 +18,18 @@ jobs:
       with:
         ref: master       
 
-    - name: Build the Docker image (master)
-      env:
-        DOCKER_REPO: julam5/hello-world-github-actions
-      run: docker build . --file Dockerfile.build --tag $DOCKER_REPO:${GITHUB_SHA::8} 
+   # - name: Build the Docker image (master)
+   #   env:
+   #     DOCKER_REPO: julam5/hello-world-github-actions
+   #   run: docker build . --file Dockerfile.build --tag $DOCKER_REPO:${GITHUB_SHA::8} 
   
-    - name: Login to DockerHub Registry
-      run: echo "${{ secrets.PERSONAL_DOCKER_PASSWORD }}" | docker login -u ${{ secrets.PERSONAL_DOCKER_USERNAME }} --password-stdin
+   # - name: Login to DockerHub Registry
+   #   run: echo "${{ secrets.PERSONAL_DOCKER_PASSWORD }}" | docker login -u ${{ secrets.PERSONAL_DOCKER_USERNAME }} --password-stdin
     
-    - name: Push image (no tag)
-      if: github.ref == 'refs/heads/master' 
-      env:
-        DOCKER_REPO: julam5/hello-world-github-actions
-      run: docker push ${DOCKER_REPO}:${GITHUB_SHA::8}
+   # - name: Push image (no tag)
+   #   env:
+   #     DOCKER_REPO: julam5/hello-world-github-actions
+   #   run: docker push ${DOCKER_REPO}:${GITHUB_SHA::8}
 
 
 
