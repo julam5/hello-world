@@ -13,14 +13,16 @@ jobs:
   build-job:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - name: Actions Checkout (master)
+      uses: actions/checkout@v2
       if: github.ref == 'refs/heads/master' 
       with:
         ref: master
-    - uses: actions/checkout@v2
+    - name: Actions Checkout (with tag)
+      uses: actions/checkout@v2
       if: startsWith(github.ref, 'refs/tags/')
       with:
-        ref: github.ref
+        ref: ${{ github.ref }}
     
         
 
