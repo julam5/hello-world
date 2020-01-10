@@ -19,7 +19,7 @@ jobs:
     - name: Echo check (with tag)
       env:
         DOCKER_REPO: julam5/hello-world-github-actions
-        GITHUB_REF_PREFIX: ref/tags/
+        GITHUB_REF_PREFIX: refs/tags/
       run: echo ${GITHUB_REF#${GITHUB_REF_PREFIX}}
       
     #- name: Build the Docker image (with tag)
