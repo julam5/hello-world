@@ -15,7 +15,6 @@ jobs:
       uses: actions/checkout@v2
       with:
         ref: ${{ github.ref }}
-        
       
     - name: Build the Docker image (with tag)
       env:
@@ -25,16 +24,16 @@ jobs:
         DOCKER_TAG=$(echo "${GITHUB_REF#${GITHUB_REF_PREFIX}}") 
         docker build . --file Dockerfile.build --tag $DOCKER_REPO:${DOCKER_TAG}
   
-  
-  
-    #- name: Login to DockerHub Registry
-    #  run: echo "${{ secrets.PERSONAL_DOCKER_PASSWORD }}" | docker login -u ${{ secrets.PERSONAL_DOCKER_USERNAME }} --password-stdin
+    - name: Login to DockerHub Registry
+      run: echo "${{ secrets.PERSONAL_DOCKER_PASSWORD }}" | docker login -u ${{ secrets.PERSONAL_DOCKER_USERNAME }} --password-stdin
       
-      
-    #- name: Push image (with tag)
-    #  env:
-    #    DOCKER_REPO: julam5/hello-world-github-actions
-    #  run: docker push ${DOCKER_REPO}:${GITHUB_REF}
+    - name: Push image (with tag)
+      env:
+        DOCKER_REPO: julam5/hello-world-github-actions
+        GITHUB_REF_PREFIX: refs/tags/v
+      run: |
+        DOCKER_TAG=$(echo "${GITHUB_REF#${GITHUB_REF_PREFIX}}") 
+        docker push ${DOCKER_REPO}:${DOCKER_TAG}
       
       
       
