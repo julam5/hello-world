@@ -21,7 +21,7 @@ jobs:
       env:
         DOCKER_REPO: julam5/hello-world-github-actions
         GITHUB_REF_PREFIX: ref/tags/v
-      run: docker build . --file Dockerfile.build --tag $DOCKER_REPO:${GITHUB_REF#${GITHUB_REF_PREFIX}}
+      run: echo ${GITHUB_REF#${GITHUB_REF_PREFIX}} | read DOCKER_TAG | docker build . --file Dockerfile.build --tag $DOCKER_REPO:${DOCKER_TAG}
   
   
   
